@@ -1,20 +1,21 @@
 <?php // db.php
- 
-$dbhost = '127.0.0.1';
-$dbuser = 'root';
-$dbpass = '2SSNYPpeE5ldBeu2';
- 
-function dbConnect($db="") 
+
+$dbhost = 'oniddb.cws.oregonstate.edu';
+$dbname = 'dongj-db';
+$dbuser = 'dongj-db';
+$dbpass = 'oniddbpassword';
+
+function dbConnect($db="")
 {
-    global $dbhost, $dbuser, $dbpass;
-    
-    $dbcnx = @mysql_connect($dbhost, $dbuser)
-            or die("The site database appears to be down.");
-    
-    if ($db!="" and !@mysql_select_db($db))
+    global $dbhost, $dbname, $dbuser, $dbpass;
+
+    $mysql_handle = @mysql_connect($dbhost, $dbuser, $dbpass)
+        or die("The site database appears to be down.");
+
+    if ($db != "" and !@mysql_select_db($dbname, $mysql_handle))
         die("The site database is unavailable.");
- 
-    return $dbcnx;
+
+    return $mysql_handle;
 }
 
 ?>
