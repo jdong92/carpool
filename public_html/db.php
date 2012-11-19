@@ -2,7 +2,7 @@
 
 $dbhost = 'oniddb.cws.oregonstate.edu';
 $dbuser = 'dongj-db';
-$dbpass = 'OoRXrzRGCxpLdzHT;
+$dbpass = 'OoRXrzRGCxpLdzHT';
 
 function dbConnect($db="")
 {
