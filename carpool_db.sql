@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `account` (
+CREATE TABLE IF NOT EXISTS `users` (
 
 `username` CHAR(100) NOT NULL,
 `firstname` CHAR(100) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `account` (
 `age` INT(10) NOT NULL,
 `email` CHAR(100) NOT NULL,
 `gender` CHAR(1) NOT NULL,
-`password` CHAR(100) NOT NULL,
+`passhash` CHAR(100) NOT NULL,
 
 PRIMARY KEY(`username`)
 
