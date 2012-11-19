@@ -94,7 +94,7 @@ if (!isset($_POST['login'])):
 <?php
 else:
 // Process login submission
-dbConnect('nejadb-db');
+dbConnect('dongj-db');
 
 if ($_POST['username']=='' or $_POST['password']=='') 
 {
