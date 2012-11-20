@@ -68,6 +68,7 @@ include("navbar.php");
 			</form>
 			<br><br>
 <?php
+dbConnect('dongj-db');
 $sqlquery = 'select * from carpool';
 $result = mysql_query($sqlquery);
                     $num_results = mysql_num_rows($result);
