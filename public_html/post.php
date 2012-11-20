@@ -201,6 +201,7 @@ if($type == "Add"){
 		error("Couldn't create a startinglocation");
 	$stl = mysql_insert_id();
 
+	error("$stl");
 	
 	$query = "INSERT INTO endinglocation (city, state, address) VALUES ('$cityE', '$stateE', '$addressE')";
 	if(!mysql_query($query))
