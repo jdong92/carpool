@@ -192,7 +192,7 @@ $stateE = mysql_real_escape_string(trim($_POST['stateE']));
 $datetime=date("d/m/y h:i");
 $author=$_SESSION['username'];
 
-if($type == "Add")
+if($type == "Add"){
     
 	$stl = uuid();
 	$endl = uuid();
@@ -205,7 +205,7 @@ if($type == "Add")
 		error("Couldn't create an endinglocation");
 		
 	$query = "INSERT INTO carpool (carpool_id, startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES (uuid(),'$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
-elseif($type == "Delete")
+}elseif($type == "Delete")
 	$query="DELETE FROM carpool WHERE carpool_id = '$carpoolid'";
 elseif($type == "Edit")
 	$query="UPDATE carpool SET startingtime = '$start' endingtime = 'end' datetime = '$date' duration = '$duration' car_id = '$carid' numberofpassengers = '$numpass' recurrencelevel = '$recur' WHERE carpool_id = '$carpoolid'";
