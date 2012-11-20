@@ -88,5 +88,10 @@ img {
     
   }
 
+#c{
+	display: inline-block;
+
+}
+
 a:link {color:#70B7BA;}      
 a:visited {color:#70B7BA;}
