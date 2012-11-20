@@ -175,6 +175,8 @@ if ($_POST['carpoolid']=='')
     error('One or more required fields were left blank.\\n'.'Please fill them in and try again.');
 }
 
+$type = mysql_real_escape_string(trim($_POST['type']));
+
 $carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
 $start=mysql_real_escape_string(trim($_POST['start']));
 $end=mysql_real_escape_string(trim($_POST['end']));
@@ -205,6 +207,10 @@ if($type == "Add"){
 		error("Couldn't create an endinglocation");
 		
 	$query = "INSERT INTO carpool (carpool_id, startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES (uuid(),'$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
+	
+	if(!mysql_query($query))
+		error("Couldn't create a carpool");
+	
 }elseif($type == "Delete")
 	$query="DELETE FROM carpool WHERE carpool_id = '$carpoolid'";
 elseif($type == "Edit")
@@ -212,8 +218,8 @@ elseif($type == "Edit")
 
 
 
-if (!mysql_query($query))
-    error('A database error occurred in processing your submission.');
+/*if (!mysql_query($query))
+    error('A database error occurred in processing your submission.');*/
 
 mysql_close();
 header('Location: success.php');
