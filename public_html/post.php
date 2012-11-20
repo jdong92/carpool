@@ -66,7 +66,7 @@ if (!isset($_POST['submitpost'])):
 	
 			<div id="main-content">
 						
-			<h2>Create carpool</h2>
+			<h2>Create a carpool</h2>
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 			<select name="type">
 			<option>Add</option>
@@ -170,14 +170,14 @@ if (!isset($_POST['submitpost'])):
 else:
 // Process post submission
 dbConnect('nejadb-db');
-if ($_POST['carpoolid']=='') 
-{
-    error('One or more required fields were left blank.\\n'.'Please fill them in and try again.');
-}
+//if ($_POST['carpoolid']=='') 
+//{
+//    error('One or more required fields were left blank.\\n'.'Please fill them in and try again.');
+//}
 
 $type = mysql_real_escape_string(trim($_POST['type']));
 
-$carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
+//$carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
 $start=mysql_real_escape_string(trim($_POST['start']));
 $end=mysql_real_escape_string(trim($_POST['end']));
 $duration=mysql_real_escape_string(trim($_POST['duration']));
@@ -195,7 +195,7 @@ $datetime=date("d/m/y h:i");
 $author=$_SESSION['username'];
 
 if($type == "Add"){
-    
+
 	$query = "INSERT INTO startinglocation (city, state, address) VALUES ('$cityS', '$stateS', '$addressS')";
 	if(!mysql_query($query))
 		error("Couldn't create a startinglocation");
@@ -205,12 +205,17 @@ if($type == "Add"){
 	if(!mysql_query($query))
 		error("Couldn't create an endinglocation");
 	$endl = mysql_insert_id();
-	
 		
 	$query = "INSERT INTO carpool (startingtime, endingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES ('$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
-	
 	if(!mysql_query($query))
 		error("Couldn't create a carpool");
+
+	$lastid = mysql_insert_id();
+	$query = "INSERT INTO driver (username, carpool_id) VALUES ('$author','$lastid')";
+	if(!mysql_query($query))
+		error("Couldn't create a carpool");
+
+
 	
 }elseif($type == "Delete")
 	$query="DELETE FROM carpool WHERE carpool_id = '$carpoolid'";
