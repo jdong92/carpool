@@ -196,17 +196,19 @@ $author=$_SESSION['username'];
 
 if($type == "Add"){
     
-	$stl = uuid();
-	$endl = uuid();
-	$query = "INSERT INTO startinglocation (startinglocation_id, city, state, address) VALUES ('$stl', '$cityS', '$stateS', '$addressS')";
+	$query = "INSERT INTO startinglocation (city, state, address) VALUES ('$cityS', '$stateS', '$addressS')";
 	if(!mysql_query($query))
 		error("Couldn't create a startinglocation");
-		
-	$query = "INSERT INTO startinglocation (startinglocation_id, city, state, address) VALUES ('$endl', '$cityE', '$stateE', '$addressE')";
+	$stl = mysql_insert_id();
+
+	
+	$query = "INSERT INTO startinglocation (city, state, address) VALUES ('$cityE', '$stateE', '$addressE')";
 	if(!mysql_query($query))
 		error("Couldn't create an endinglocation");
+	$endl = mysql_insert_id();
+	
 		
-	$query = "INSERT INTO carpool (carpool_id, startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES (uuid(),'$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
+	$query = "INSERT INTO carpool (startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES ('$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
 	
 	if(!mysql_query($query))
 		error("Couldn't create a carpool");
