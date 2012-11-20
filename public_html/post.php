@@ -197,7 +197,7 @@ if($type == "Add")
 	if(!mysql_query($query))
 		error("Couldn't create an endinglocation");
 		
-	$query = "INSERT INTO carpool (carpool_id, startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, stl, endl) VALUES (uuid(),'$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
+	$query = "INSERT INTO carpool (carpool_id, startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES (uuid(),'$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
 elseif($type == "Delete")
 	$query="DELETE FROM carpool WHERE carpool_id = '$carpoolid'";
 elseif($type == "Edit")
