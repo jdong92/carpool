@@ -67,6 +67,45 @@ include("navbar.php");
 			<input type="submit" name="submitsearch" value="Submit" />
 			</form>
 			<br><br>
+<?php
+$sqlquery = 'select * from carpool';
+$result = mysql_query($sqlquery);
+                    $num_results = mysql_num_rows($result);
+                    
+                    if ($num_results == 0) echo "<br/> There are no results.";
+                    else
+                    {
+                        echo "<div style=\"font-size: 10pt; font-family: \'Lucida Console\'\">";
+                        $spacing = ' &nbsp ';
+                        echo "<table>
+                                <tr>
+                                    <td> <strong> CarpoolID </strong> $spacing </td>
+                                    <td> <strong> StartID </strong> $spacing </td>
+                                    <td> <strong> EndID </strong> $spacing </td>
+				    <td> <strong> Datetime </strong> $spacing </td>
+                                </tr>
+                                ";
+                        while($row=mysql_fetch_array($result))
+                        {
+                            $A=$row['carpool_id'];
+                            $B=$row['startingtime_id'];
+                            $C=$row['endinglocation_id'];
+			    $D=$row['datetime'];
+                            
+                            echo "
+                                <tr>
+                                    <td>$A $spacing </td>
+                                    <td>$B $spacing </td>
+                                    <td>$C $spacing </td>
+				    <td>$D $spacing </td>
+                                </tr>
+                            ";
+                        }
+                        echo "
+                        </table>";
+                    }
+?>
+
 			<?php	
 				if(isset($_GET['submitsearch']))
 					{
