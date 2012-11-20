@@ -200,8 +200,6 @@ if($type == "Add"){
 	if(!mysql_query($query))
 		error("Couldn't create a startinglocation");
 	$stl = mysql_insert_id();
-
-	error("$stl");
 	
 	$query = "INSERT INTO endinglocation (city, state, address) VALUES ('$cityE', '$stateE', '$addressE')";
 	if(!mysql_query($query))
@@ -209,7 +207,7 @@ if($type == "Add"){
 	$endl = mysql_insert_id();
 	
 		
-	$query = "INSERT INTO carpool (startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES ('$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
+	$query = "INSERT INTO carpool (startingtime, endingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES ('$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
 	
 	if(!mysql_query($query))
 		error("Couldn't create a carpool");
