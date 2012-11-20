@@ -80,16 +80,16 @@ $result = mysql_query($sqlquery);
                         echo "<table>
                                 <tr>
                                     <td> <strong> CarpoolID </strong> $spacing </td>
-                                    <td> <strong> StartID </strong> $spacing </td>
-                                    <td> <strong> EndID </strong> $spacing </td>
+                                    <td> <strong> StartTime </strong> $spacing </td>
+                                    <td> <strong> EndTime </strong> $spacing </td>
 				    <td> <strong> Datetime </strong> $spacing </td>
                                 </tr>
                                 ";
                         while($row=mysql_fetch_array($result))
                         {
                             $A=$row['carpool_id'];
-                            $B=$row['startingtime_id'];
-                            $C=$row['endinglocation_id'];
+                            $B=$row['startingtime'];
+                            $C=$row['endingtime'];
 			    $D=$row['datetime'];
                             
                             echo "
