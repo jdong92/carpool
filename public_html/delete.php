@@ -8,7 +8,7 @@ if(mysql_num_rows($result) != 0){
 	}
 }
 else{
-	echo '<p>You don't own any carpools</p>';
+	echo '<p>You don\'t own any carpools</p>';
 }
 
 
