@@ -6,18 +6,18 @@ function insertnavbar($authed,$extra)
     {
 	$auth = '
 		Logged in as: <font color=A9CF54>'.$_SESSION['username'].'</font><br>
-		<a href="post.php">Post an ad</a><br>
-		<a href="mail.php">Mail</a><br>
-		<a href="composemail.php">Compose Mail</a><br>
-		<a href="search.php">Search</a><br>
+		<a href="post.php">Create a Carpool</a><br>
+		//<a href="mail.php">Mail</a><br>
+		//<a href="composemail.php">Compose Mail</a><br>
+		<a href="search.php">Search Carpools</a><br>
 		<a href="logout.php">Log out</a>';
 	}
 	$notauth='
 		Not logged in.. <br>
 		<a href="login.php">Log in</a><br>
-		<a href="post.php">Post an ad</a><br>
-		<a href="mail.php">Mail</a><br>
-		<a href="search.php">Search</a><br>
+		<a href="post.php">Create a Carpool</a><br>
+		//<a href="mail.php">Mail</a><br>
+		<a href="search.php">Search Carpools</a><br>
 		<a href="signup.php">Sign up</a>
 		';
 	
