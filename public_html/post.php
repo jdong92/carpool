@@ -140,6 +140,15 @@ if (!isset($_POST['submitpost'])):
 			<input type="submit" name="submitpost" value="Create carpool" />
 			</form>
 			
+			<br />
+			
+			<form method="post" action="index.php">
+			
+			<input type ="submit" value = "cancel" />
+			
+			</form>
+			
+			
 			</div>
 			
 
