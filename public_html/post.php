@@ -108,13 +108,13 @@ if (!isset($_POST['submitpost'])):
 				Starting Location<br />
 				
 				Address<br />
-				<input type="text" name="address" size="50" /><br />
+				<input type="text" name="addressS" size="50" /><br />
 			
 				City:<br />
-				<input type="text" name="city" size="50" /><br />
+				<input type="text" name="cityS" size="50" /><br />
 
-				State:
-				<input type="text" name="state" size="50" /><br />
+				State:<br />
+				<input type="text" name="stateS" size="50" /><br />
 
 			</div>
 			
@@ -123,13 +123,13 @@ if (!isset($_POST['submitpost'])):
 				Ending Location<br />
 				
 				Address<br />
-				<input type="text" name="address" size="50" /><br />
+				<input type="text" name="addressE" size="50" /><br />
 			
 				City:<br />
-				<input type="text" name="city" size="50" /><br />
+				<input type="text" name="cityE" size="50" /><br />
 
 				State:
-				<input type="text" name="state" size="50" /><br />
+				<input type="text" name="stateE" size="50" /><br />
 
 			</div>
 			
@@ -176,11 +176,28 @@ $numpass=mysql_real_escape_string(trim($_POST['numpass']));
 $textpost=mysql_real_escape_string(trim($_POST['textpost']));
 $contact=mysql_real_escape_string(trim($_POST['contact']));
 $recur=mysql_real_escape_string(trim($_POST['recur']));
+$addressS = mysql_real_escape_string(trim($_POST['addressS']));
+$addressE = mysql_real_escape_string(trim($_POST['addressE']));
+$cityS = mysql_real_escape_string(trim($_POST['cityS']));
+$cityE = mysql_real_escape_string(trim($_POST['cityE']));
+$stateS = mysql_real_escape_string(trim($_POST['stateS']));
+$stateE = mysql_real_escape_string(trim($_POST['stateE']));
 $datetime=date("d/m/y h:i");
 $author=$_SESSION['username'];
 
 if($type == "Add")
-    $query = "INSERT INTO carpool (carpool_id, startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel) VALUES (uuid(),'$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur')";
+    
+	$stl = uuid();
+	$endl = uuid();
+	$query = "INSERT INTO startinglocation (startinglocation_id, city, state, address) VALUES ('$stl', '$cityS', '$stateS', '$addressS')";
+	if(!mysql_query($query))
+		error("Couldn't create a startinglocation");
+		
+	$query = "INSERT INTO startinglocation (startinglocation_id, city, state, address) VALUES ('$endl', '$cityE', '$stateE', '$addressE')";
+	if(!mysql_query($query))
+		error("Couldn't create an endinglocation");
+		
+	$query = "INSERT INTO carpool (carpool_id, startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, stl, endl) VALUES (uuid(),'$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
 elseif($type == "Delete")
 	$query="DELETE FROM carpool WHERE carpool_id = '$carpoolid'";
 elseif($type == "Edit")
