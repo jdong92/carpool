@@ -128,7 +128,7 @@ if (!isset($_POST['submitpost'])):
 				City:<br />
 				<input type="text" name="cityE" size="50" /><br />
 
-				State:
+				State:<br />
 				<input type="text" name="stateE" size="50" /><br />
 
 			</div>
@@ -202,13 +202,13 @@ if($type == "Add"){
 	$stl = mysql_insert_id();
 
 	
-	$query = "INSERT INTO startinglocation (city, state, address) VALUES ('$cityE', '$stateE', '$addressE')";
+	$query = "INSERT INTO endinglocation (city, state, address) VALUES ('$cityE', '$stateE', '$addressE')";
 	if(!mysql_query($query))
 		error("Couldn't create an endinglocation");
 	$endl = mysql_insert_id();
 	
 		
-	$query = "INSERT INTO carpool (startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES ('$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
+	$query = "INSERT INTO carpool (startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel, startinglocation_id, endinglocation_id) VALUES ('$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur', '$stl', '$endl')";
 	
 	if(!mysql_query($query))
 		error("Couldn't create a carpool");
@@ -219,9 +219,6 @@ elseif($type == "Edit")
 	$query="UPDATE carpool SET startingtime = '$start' endingtime = 'end' datetime = '$date' duration = '$duration' car_id = '$carid' numberofpassengers = '$numpass' recurrencelevel = '$recur' WHERE carpool_id = '$carpoolid'";
 
 
-
-/*if (!mysql_query($query))
-    error('A database error occurred in processing your submission.');*/
 
 mysql_close();
 header('Location: success.php');
