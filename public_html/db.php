@@ -1,6 +1,7 @@
 <?php // db.php
 
 $dbhost = 'oniddb.cws.oregonstate.edu';
+$dbname = 'dongj-db';
 $dbuser = 'dongj-db';
 $dbpass = 'OoRXrzRGCxpLdzHT';
 
