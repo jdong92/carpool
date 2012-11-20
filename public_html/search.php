@@ -48,6 +48,7 @@ include("navbar.php");
 						
 			<h2>Search</h2>
 			<form method="GET" action="<?php echo $_SERVER['PHP_SELF']?>">
+<!--
 			<select name="type">
 			<option>Buy</option>
 			<option>Sell</option>
@@ -65,6 +66,7 @@ include("navbar.php");
 			<input type="text" name="searchterm4" size="50" /><br />
 
 			<input type="submit" name="submitsearch" value="Submit" />
+-->
 			</form>
 			<br><br>
 <?php
