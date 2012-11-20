@@ -69,18 +69,36 @@ if (!isset($_POST['submitpost'])):
 			<h2>Post Ad</h2>
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 			<select name="type">
-			<option>Buy</option>
-			<option>Sell</option>
-			<option>Trade</option>
+			<option>Add</option>
+			<option>Delete</option>
+			<option>Edit</option>
 			</select>
 			<?php cats(''); ?>
 			<br>
-			Title:<br />
-			<input type="text" name="title" size="50" /><br />
+			Carpool ID:<br />
+			<input type="text" name="carpoolid" size="50" /><br />
 
 
-			Price:<br />
-			<input type="text" name="price" size="50" /><br />
+			Start time:<br />
+			<input type="text" name="start" size="50" /><br />
+			
+			End time:<br />
+			<input type="text" name="end" size="50" /><br />
+			
+			Date:<br />
+			<input type="text" name="date" size="50" /><br />
+			
+			Duration:<br />
+			<input type="text" name="duration" size="50" /><br />
+			
+			Number of passengers:<br />
+			<input type="text" name="numpass" size="50" /><br />
+			
+			Car ID:<br />
+			<input type="text" name="carid" size="50" /><br />
+			
+			Recurrence level (frequent or one-time):<br />
+			<input type="text" name="recur" size="50" /><br />
 
 			Text:<br />
 			<textarea name="textpost" rows="5" cols="60"></textarea><br />
@@ -110,26 +128,30 @@ if (!isset($_POST['submitpost'])):
 else:
 // Process post submission
 dbConnect('nejadb-db');
-if ($_POST['title']=='' or $_POST['price']=='' or $_POST['textpost']=='' or $_POST['contact']=='') 
+if ($_POST['carpoolid']=='') 
 {
     error('One or more required fields were left blank.\\n'.'Please fill them in and try again.');
 }
 
-$type=mysql_real_escape_string(trim($_POST['type']));
-$category=mysql_real_escape_string(trim($_POST['category']));
-$title=mysql_real_escape_string(trim($_POST['title']));
-$price=mysql_real_escape_string(trim($_POST['price']));
+$carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
+$start=mysql_real_escape_string(trim($_POST['start']));
+$end=mysql_real_escape_string(trim($_POST['end']));
+$duration=mysql_real_escape_string(trim($_POST['duration']));
+$date=mysql_real_escape_string(trim($_POST['date']));
+$carid=mysql_real_escape_string(trim($_POST['carid']));
+$numpass=mysql_real_escape_string(trim($_POST['numpass']));
 $textpost=mysql_real_escape_string(trim($_POST['textpost']));
 $contact=mysql_real_escape_string(trim($_POST['contact']));
+$recur=mysql_real_escape_string(trim($_POST['recur']));
 $datetime=date("d/m/y h:i");
 $author=$_SESSION['username'];
 
-if($type == "Buy")
-    $query="INSERT INTO buyposts(category,title,price,author,text,datetime,contact)VALUES('$category','$title','$price','$author','$textpost','$datetime','$contact')";
-elseif($type == "Sell")
-	$query="INSERT INTO sellposts(category,title,price,author,text,datetime,contact)VALUES('$category','$title','$price','$author','$textpost','$datetime','$contact')";
-elseif($type == "Trade")
-	$query="INSERT INTO tradeposts(category,title,price,author,text,datetime,contact)VALUES('$category','$title','$price','$author','$textpost','$datetime','$contact')";
+if($type == "Add")
+    $query = "INSERT INTO carpool (carpool_id, startingtime, endingingtime, datetime, duration, car_id, numberofpassengers, recurrencelevel) VALUES (uuid(),'$carid', '$start', '$end', '$date', '$duration', '$carid', '$numpass', '$recur')";
+elseif($type == "Delete")
+	$query="DELETE FROM carpool WHERE carpool_id = '$carpoolid'";
+elseif($type == "Edit")
+	$query="UPDATE carpool SET startingtime = '$start' endingtime = 'end' datetime = '$date' duration = '$duration' car_id = '$carid' numberofpassengers = '$numpass' recurrencelevel = '$recur' WHERE carpool_id = '$carpoolid'";
 
 
 
