@@ -73,7 +73,6 @@ if (!isset($_POST['submitpost'])):
 			<option>Delete</option>
 			<option>Edit</option>
 			</select>
-			//<?php cats(''); ?> no need for the dropdown
 			<br>
 			Carpool ID:<br />
 			<input type="text" name="carpoolid" size="50" /><br />
