@@ -101,22 +101,42 @@ if (!isset($_POST['submitpost'])):
 
 			<br/> <br/>
 			
-			<div>
+			<div id = "c">
 			
-			Starting Location<br />
-			<input type="text" name="address" size="50" /><br />
+			<div id = "leftlocat">
 			
-			City:<br />
-			<input type="text" name="city" size="50" /><br />
+				Starting Location<br />
+				
+				Address<br />
+				<input type="text" name="address" size="50" /><br />
+			
+				City:<br />
+				<input type="text" name="city" size="50" /><br />
 
-			State:
-			<input type="text" name="state" size="50" /><br />
-
-			
-			<div style="clear: both;"></div>
+				State:
+				<input type="text" name="state" size="50" /><br />
 
 			</div>
+			
+			<div id = "rightlocat">
+			
+				Ending Location<br />
+				
+				Address<br />
+				<input type="text" name="address" size="50" /><br />
+			
+				City:<br />
+				<input type="text" name="city" size="50" /><br />
 
+				State:
+				<input type="text" name="state" size="50" /><br />
+
+			</div>
+			
+			</div>
+
+			<div style="clear: both;"></div>
+			
 			<input type="submit" name="submitpost" value="Create carpool" />
 			</form>
 			
