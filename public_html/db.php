@@ -1,9 +1,12 @@
 <?php // db.php
 
 $dbhost = 'oniddb.cws.oregonstate.edu';
-$dbname = 'dongj-db';
-$dbuser = 'dongj-db';
-$dbpass = 'OoRXrzRGCxpLdzHT';
+#$dbname = 'dongj-db';
+#$dbuser = 'dongj-db';
+#$dbpass = 'OoRXrzRGCxpLdzHT';
+$dbname = 'johnsoaa-db';
+$dbuser = 'johnsoaa-db';
+$dbpass = 'ebNck9ifXg5KPFmo';
 
 function dbConnect($db="")
 {
