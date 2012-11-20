@@ -34,9 +34,14 @@ CREATE TABLE IF NOT EXISTS `carpool` (
 `startingtime` CHAR(50) NOT NULL,
 `endingtime` CHAR(50) NOT NULL,
 `recurrencelevel` INT(10),
+`startinglocation_id` INT(100),
+`endinglocation_id` INT(100),
+
 
 PRIMARY KEY(`carpool_id`),
-FOREIGN KEY(`car_id`) REFERENCES cars ON DELETE SET NULL ON UPDATE CASCADE
+FOREIGN KEY(`car_id`) REFERENCES cars ON DELETE SET NULL ON UPDATE CASCADE,
+FOREIGN KEY(`startinglocation_id`) REFERENCES startinglocation ON DELETE SET NULL ON UPDATE CASCADE,
+FOREIGN KEY(`endinglocation_id`) REFERENCES endinglocation ON DELETE SET NULL ON UPDATE CASCADE
 
 );
 
