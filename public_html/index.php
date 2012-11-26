@@ -47,8 +47,9 @@ include("navbar.php");
 			<div id="main-content">
 						
 				<h2>Welcome</h2>
-				At Corvallis Classifieds you can buy, sell, or trade your stuff and reach a local audience.
-				Sign up for an account to start posting or just feel free to browse the existing ads!<br><br>
+				With Carpool Finder, you can create, edit, and delete your own carpools. 
+				You control which users are added to your carpools. View available carpools with
+				the search, and join carpools by asking the owners via email.<br><br>
 				<center><p style="font-size:15px">
 			
 			</div>
