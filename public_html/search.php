@@ -73,47 +73,7 @@ include("navbar.php");
 dbConnect('dongj-db');
 $sqlquery = 'select * from carpool';
 $result = mysql_query($sqlquery);
-                    $num_results = mysql_num_rows($result);
-                    
-                    if ($num_results == 0) echo "<br/> There are no results.";
-                    else
-                    {
-                        echo "<div style=\"font-size: 10pt; font-family: \'Lucida Console\'\">";
-                        $spacing = ' &nbsp ';
-                        echo "<table>
-                                <tr>
-                                    <td> <strong> Owner </strong> $spacing </td>
-                                    <td> <strong> CarpoolID </strong> $spacing </td>
-                                    <td> <strong> StartTime </strong> $spacing </td>
-                                    <td> <strong> EndTime </strong> $spacing </td>
-						     	    <td> <strong> Datetime </strong> $spacing </td>
-                                </tr>
-                                ";
-                        while($row=mysql_fetch_array($result))
-                        {
-                            $A=$row['carpool_id'];
-                            $B=$row['startingtime'];
-                            $C=$row['endingtime'];
-			   			    $D=$row['datetime'];
-
-			   			    $subquery = "select username from driver where carpool_id = $A";
-                            $subqueryresult = mysql_query($subquery);
-                            $usr = mysql_fetch_array($subqueryresult);
-                            $usr = $usr['username'];
-
-                            echo "
-                                <tr>
-                                	<td>$usr $spacing </td>
-                                    <td>$A $spacing </td>
-                                    <td>$B $spacing </td>
-                                    <td>$C $spacing </td>
-				   				    <td>$D $spacing </td>
-                                </tr>
-                            ";
-                        }
-                        echo "
-                        </table>";
-                    }
+printCarpools($result);
 ?>
 
 			<?php	
