@@ -6,7 +6,8 @@ function insertnavbar($authed,$extra)
     {
 	$auth = '
 		Logged in as: <font color=A9CF54>'.$_SESSION['username'].'</font><br>
-		<a href="post.php">Create a Carpool</a><br>
+		<a href="post.php">Modify a Carpool</a><br>
+		<a href="add_passenger.php">Add a passenger to your carpool</a><br>
 		<a href="delete.php">Delete a Carpool</a><br>
 		<a href="search.php">Search Carpools</a><br>
 		<a href="logout.php">Log out</a>';
@@ -14,7 +15,7 @@ function insertnavbar($authed,$extra)
 	$notauth='
 		Not logged in.. <br>
 		<a href="login.php">Log in</a><br>
-		<a href="post.php">Create a Carpool</a><br>
+		<a href="post.php">Modify a Carpool</a><br>
 		<a href="search.php">Search Carpools</a><br>
 		<a href="signup.php">Sign up</a>
 		';
