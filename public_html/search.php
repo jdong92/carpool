@@ -159,8 +159,8 @@ else:
 	if(isset($_GET['submitsearch']))
 	{	
 		$carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
-		$start=mysql_real_escape_string(trim($_POST['start']));
-		$end=mysql_real_escape_string(trim($_POST['end']));
+		'%'.$start=mysql_real_escape_string(trim($_POST['start'])).'%';
+		'%'.$end=mysql_real_escape_string(trim($_POST['end'])).'%';
 		$duration=mysql_real_escape_string(trim($_POST['duration']));
 		$date=mysql_real_escape_string(trim($_POST['date']));
 		$carid=mysql_real_escape_string(trim($_POST['carid']));
@@ -177,104 +177,100 @@ else:
 		
 		$andc = 0;
 		
-		$sql = 'SELECT * FROM Carpools WHERE ';
+		$sql = 'SELECT * FROM carpool C JOIN startinglocation S JOIN endinglocation E WHERE ';
 		
 		if($carpoolid != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' C.carpool_id = '. $carpoolid;
+			andc++;
 		}
-		if($start != '')
+		if($start != '%%')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' C.startingtime LIKE "'. $start.'"';
+			
+			andc++;
 		}
-		if($end != '')
+		if($end != '%%')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
-		}
-		if($duration != '')
-		{
-			if(andc != 0)
-				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' C.endingtime LIKE "'. $end.'"';
+			
+			andc++;
 		}
 		if($date != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
-		}
-		if($carid != '')
-		{
-			if(andc != 0)
-				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' C.datetime LIKE "'. $date . '"';
+			 
+			andc++;
 		}
 		if($recur != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' C.recurrencelevel = '. $recur;
+			 
+			andc++;
 		}
 		if($addressS != '%%')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' S.address LIKE  "'. $addressS . '"';
+			 
+			andc++;
 		}
 		if($addressE != '%%')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' E.address LIKE  "'. $addressE . '"';
+			 
+			andc++;
 		}
 		if($cityS != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' S.city LIKE "'. $cityS . '"';
+			 
+			andc++;
 		}
 		if($cityE != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' E.city LIKE "'. $cityE . '"';
+			 
+			andc++;
 		}
 		if($stateS != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' S.state LIKE "'. $stateS . '"';
+			 
+			andc++;
 		}
 		if($stateE != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
-			$sql .=' AND title LIKE "'. $searchterm2 . '"';
-			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+			$sql .=' E.state LIKE "'. $stateE . '"';
+			 
+			andc++;
 		}
 		
 				
 		$result = mysql_query($sql) or die(mysql_error());
 	
-			
+		printCarpools($result);
 	}
 	
 	mysql_close();
