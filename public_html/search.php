@@ -139,7 +139,6 @@ include("navbar.php");
 					$stateS = mysql_real_escape_string(trim($_POST['stateS']));
 					$stateE = mysql_real_escape_string(trim($_POST['stateE']));
 					$datetime=date("d/m/y h:i");
-					$author=$_SESSION['username'];
 					
 					$andc = 1;
 					
