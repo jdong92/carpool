@@ -66,7 +66,7 @@ if (!isset($_POST['submitpost'])):
 	
 			<div id="main-content">
 						
-			<h2>Create a carpool</h2>
+			<h2>Modify a carpool</h2>
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 			<select name="type">
 			<option>Add</option>
