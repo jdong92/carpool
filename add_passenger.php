@@ -112,7 +112,7 @@ if (!isset($_POST['submitpost'])):
 <?php
 else:
 // Process post submission
-dbConnect('dongj-db'); //Changed DB table
+dbConnect('johnsoaa-db'); //Changed DB table
 
 $carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
 $datetime=date("d/m/y h:i");
