@@ -1,11 +1,31 @@
 <?php 
-// search.php
+// post.php
 session_start();
 ini_set('display_errors', 'On');
 
 include("common.php");
 include("db.php");
 include("navbar.php");
+
+if(!isset($_SESSION['username']))
+{
+	header('Location: login.php');
+}
+else
+{
+
+    $now = time(); // checking the time now when home page starts
+
+    if($now > $_SESSION['expire'])
+    {
+        session_destroy();
+        header('Location: login.php');
+    }
+}
+// Check if form is getting submitted
+if (!isset($_POST['submitpost'])):
+    // Display the user post form
+	
 ?>
 <html>
 <head>
@@ -14,7 +34,7 @@ include("navbar.php");
       type="image/png" 
       href="favicon.png">
 	
-	<title>Corvallis Classifieds - Search</title>
+	<title>Create a carpool</title>
 	
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<!--[if lt IE 7]>
@@ -46,107 +66,224 @@ include("navbar.php");
 	
 			<div id="main-content">
 						
-			<h2>Search</h2>
-			<form method="GET" action="<?php echo $_SERVER['PHP_SELF']?>">
-<!--
+			<h2>Create a carpool</h2>
+			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 			<select name="type">
-			<option>Buy</option>
-			<option>Sell</option>
-			<option>Trade</option>
+			<option>Add</option>
+			<option>Delete</option>
+			<option>Edit</option>
 			</select>
-			<?php cats(''); ?>
 			<br>
-			Search Term:<br />
-			<input type="text" name="searchterm1" size="50" /><br />
-			AND (Optional)
-			<input type="text" name="searchterm2" size="50" /><br />
-			AND (Optional)
-			<input type="text" name="searchterm3" size="50" /><br />
-			AND (Optional)
-			<input type="text" name="searchterm4" size="50" /><br />
+			Carpool ID (ignored with Add):<br />
+			<input type="text" name="carpoolid" size="50" /><br />
 
-			<input type="submit" name="submitsearch" value="Submit" />
--->
+			Starting After:<br />
+			<input type="text" name="start" size="50" /><br />
+			
+			Ends Before:<br />
+			<input type="text" name="end" size="50" /><br />
+			
+			Date:<br />
+			<input type="text" name="date" size="50" /><br />
+			
+			Duration Less Than:<br />
+			<input type="text" name="duration" size="50" /><br />
+			
+			Car ID:<br />
+			<input type="text" name="carid" size="50" /><br />
+			
+			Recurrence level (frequent or one-time):<br />
+			<input type="text" name="recur" size="50" /><br />
+
+			<br/> <br/>
+			
+			<div id = "c">
+			
+			<div style="float: left; width: 47%;">
+			Starting Location<br />	
+				Address:<br />
+				<input type="text" name="addressS" size="50" /><br />
+				City:<br />
+				<input type="text" name="cityS" size="50" /><br />
+				State:<br />
+				<input type="text" name="stateS" size="50" /><br />
+			</div>
+
+			<div style="float: right; width:47%;">
+			Ending Location<br />
+				Address:<br />
+				<input type="text" name="addressE" size="50" /><br />
+				City:<br />
+				<input type="text" name="cityE" size="50" /><br />
+				State:<br />
+				<input type="text" name="stateE" size="50" /><br />
+			</div>
+
+			</div>
+
+			<br /><br />
+			<div style="clear: both;"></div>
+			
+			<input type="submit" name="submitpost" value="Submit Changes" />
+
 			</form>
-			<br><br>
-<?php
-dbConnect('dongj-db');
-$sqlquery = 'select * from carpool';
-$result = mysql_query($sqlquery);
-printCarpools($result);
-?>
-
-			<?php	
-				if(isset($_GET['submitsearch']))
-					{
-						dbConnect('nejadb-db');
-						$searchterm1 = '%'. mysql_real_escape_string(trim($_GET['searchterm1'])) . '%';
-						$searchterm2 = '%'. mysql_real_escape_string(trim($_GET['searchterm2'])) . '%';
-						$searchterm3 = '%'. mysql_real_escape_string(trim($_GET['searchterm3'])) . '%';
-						$searchterm4 = '%'. mysql_real_escape_string(trim($_GET['searchterm4'])) . '%';
 						
-						$type = mysql_real_escape_string(trim($_GET['type']));
-						$cat = mysql_real_escape_string(trim($_GET['category']));
-						
-						$firstpart = '<br>Search Results for "'.mysql_real_escape_string(trim($_GET['searchterm1']));
-						$endpart = '" in '.$type. ':'.$cat.'...<br><br>';
-						
-						if($type == 'Buy')
-							$sql = 'SELECT * FROM buyposts WHERE category="' . $cat.'" AND title LIKE "'. $searchterm1 . '"';
-						elseif($type == 'Sell')
-							$sql = 'SELECT * FROM sellposts WHERE category="' . $cat.'" AND title LIKE "'. $searchterm1 . '"';
-						elseif($type == 'Trade')
-							$sql = 'SELECT * FROM tradeposts WHERE category="' . $cat.'" AND title LIKE "'. $searchterm1 . '"';
-						
-						if($searchterm2 != '%%')
-						{
-							$sql .=' AND title LIKE "'. $searchterm2 . '"';
-							$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
-						}
-						if($searchterm3 != '%%')
-						{
-							$sql .=' AND title LIKE "'. $searchterm3 . '"';
-							$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm3']));
-							
-						}
-						if($searchterm4 != '%%')
-						{
-							$sql .=' AND title LIKE "'. $searchterm4 . '"';
-							$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm4']));
-							
-						}
-						
-						echo $firstpart.$endpart;
-
-
-						
-						$result = mysql_query($sql) or die(mysql_error());
-					
-						if(mysql_num_rows($result) != 0):
-							while($row = mysql_fetch_array($result))
-							{
-								
-							  echo '<a href="viewpost.php?id=' . $row['id'] . '&type='.$type.'">' . htmlspecialchars((stripcslashes($row['title']))) . '</a>';
-							  echo '<br /><h6>Posted By: ' . stripslashes($row['author']) . '</h6>';
-							  echo '<br>';
-							}
-						else:
-							echo '<p>No posts to display!</p>';
-						endif;      
-							// id title price author text time date 
-							mysql_close();	
-					}	
-			?>
+			<form method="post" action="index.php">
+			
+			<input type ="submit" value = "Cancel" />
+			
+			</form>
 			</div>
 			
-			<div style="clear: both;"></div>
-		
+			</div>
+			
+
+			
 		</div>
 		
 		<div style="clear: both;"></div>
 	
 	</div>
+	
+	
+	
 
 </body>
 
 </html>
+
+<?php
+else:
+	// Process post submission
+	dbConnect('nejadb-db');
+
+
+	
+	
+	if(isset($_GET['submitsearch']))
+	{	
+		$carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
+		$start=mysql_real_escape_string(trim($_POST['start']));
+		$end=mysql_real_escape_string(trim($_POST['end']));
+		$duration=mysql_real_escape_string(trim($_POST['duration']));
+		$date=mysql_real_escape_string(trim($_POST['date']));
+		$carid=mysql_real_escape_string(trim($_POST['carid']));
+		$numpass=0;
+		$recur=mysql_real_escape_string(trim($_POST['recur']));
+		$addressS = '%'.mysql_real_escape_string(trim($_POST['addressS'])).'%';
+		$addressE = mysql_real_escape_string(trim($_POST['addressE']));
+		$cityS = mysql_real_escape_string(trim($_POST['cityS']));
+		$cityE = mysql_real_escape_string(trim($_POST['cityE']));
+		$stateS = mysql_real_escape_string(trim($_POST['stateS']));
+		$stateE = mysql_real_escape_string(trim($_POST['stateE']));
+		$datetime=date("d/m/y h:i");
+		$author=$_SESSION['username'];
+		
+		$andc = 0;
+		
+		$sql = 'SELECT * FROM Carpools WHERE ';
+		
+		if($carpoolid != '')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		if($carpoolid != '%%')
+		{
+			if(andc != 0)
+				$sql .= ' AND ';
+			$sql .=' AND title LIKE "'. $searchterm2 . '"';
+			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
+		}
+		
+				
+		$result = mysql_query($sql) or die(mysql_error());
+	
+			
+	}
+	
+	mysql_close();
+	header('Location: success.php');
+?>
+<?php
+endif;
+?>
