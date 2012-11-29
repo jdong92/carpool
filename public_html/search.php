@@ -68,13 +68,9 @@ if (!isset($_POST['submitpost'])):
 						
 			<h2>Search for a Carpool</h2>
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
-			<select name="type">
-			<option>Add</option>
-			<option>Delete</option>
-			<option>Edit</option>
-			</select>
+
 			<br>
-			Carpool ID (ignored with Add):<br />
+			Carpool ID:<br />
 			<input type="text" name="carpoolid" size="50" /><br />
 
 			Starting After:<br />
