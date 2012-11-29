@@ -7,23 +7,9 @@ include("common.php");
 include("db.php");
 include("navbar.php");
 
-if(!isset($_SESSION['username']))
-{
-	header('Location: login.php');
-}
-else
-{
 
-    $now = time(); // checking the time now when home page starts
-
-    if($now > $_SESSION['expire'])
-    {
-        session_destroy();
-        header('Location: login.php');
-    }
-}
 // Check if form is getting submitted
-if (!isset($_POST['submitpost'])):
+
     // Display the user post form
 	
 ?>
@@ -55,6 +41,7 @@ if (!isset($_POST['submitpost'])):
 			</div>
 		
 			<div id="left-sidebar">
+				
 				<?php
 					if (isset($_SESSION['username']) == 1)
 						insertnavbar(1,1);
@@ -65,70 +52,196 @@ if (!isset($_POST['submitpost'])):
 			</div>
 	
 			<div id="main-content">
-						
-			<h2>Search for a Carpool</h2>
-			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+							
+				<h2>Search for a Carpool</h2>
+				<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 
-			<br>
-			Carpool ID:<br />
-			<input type="text" name="carpoolid" size="50" /><br />
+				<br>
+				Carpool ID:<br />
+				<input type="text" name="carpoolid" size="50" /><br />
 
-			Starting After:<br />
-			<input type="text" name="start" size="50" /><br />
-			
-			Ends Before:<br />
-			<input type="text" name="end" size="50" /><br />
-			
-			Date:<br />
-			<input type="text" name="date" size="50" /><br />
-			
-			Duration Less Than:<br />
-			<input type="text" name="duration" size="50" /><br />
-			
-			Car ID:<br />
-			<input type="text" name="carid" size="50" /><br />
-			
-			Recurrence level (frequent or one-time):<br />
-			<input type="text" name="recur" size="50" /><br />
+				Starting After:<br />
+				<input type="text" name="start" size="50" /><br />
+				
+				Ends Before:<br />
+				<input type="text" name="end" size="50" /><br />
+				
+				Date:<br />
+				<input type="text" name="date" size="50" /><br />
+				
+				Duration Less Than:<br />
+				<input type="text" name="duration" size="50" /><br />
+				
+				Car ID:<br />
+				<input type="text" name="carid" size="50" /><br />
+				
+				Recurrence level (frequent or one-time):<br />
+				<input type="text" name="recur" size="50" /><br />
 
-			<br/> <br/>
-			
-			<div id = "c">
-			
-			<div style="float: left; width: 47%;">
-			Starting Location<br />	
-				Address:<br />
-				<input type="text" name="addressS" size="50" /><br />
-				City:<br />
-				<input type="text" name="cityS" size="50" /><br />
-				State:<br />
-				<input type="text" name="stateS" size="50" /><br />
-			</div>
+				<br/> <br/>
+				
+				<div id = "c">
+				
+				<div style="float: left; width: 47%;">
+				Starting Location<br />	
+					Address:<br />
+					<input type="text" name="addressS" size="50" /><br />
+					City:<br />
+					<input type="text" name="cityS" size="50" /><br />
+					State:<br />
+					<input type="text" name="stateS" size="50" /><br />
+				</div>
 
-			<div style="float: right; width:47%;">
-			Ending Location<br />
-				Address:<br />
-				<input type="text" name="addressE" size="50" /><br />
-				City:<br />
-				<input type="text" name="cityE" size="50" /><br />
-				State:<br />
-				<input type="text" name="stateE" size="50" /><br />
-			</div>
+				<div style="float: right; width:47%;">
+				Ending Location<br />
+					Address:<br />
+					<input type="text" name="addressE" size="50" /><br />
+					City:<br />
+					<input type="text" name="cityE" size="50" /><br />
+					State:<br />
+					<input type="text" name="stateE" size="50" /><br />
+				</div>
 
-			</div>
+				</div>
 
 			<br /><br />
 			<div style="clear: both;"></div>
 			
-			<input type="submit" name="submitpost" value="Search Carpools" />
+			<input type="submit" name="submitsearch" value="Search Carpools" />
 
 			</form>
+
+
 						
 			<form method="post" action="index.php">
 			
 			<input type ="submit" value = "Cancel" />
 			
 			</form>
+
+			<?php
+				if (isset($_POST['submitsearch']))
+				{
+					dbConnect('nejadb-db');
+	
+					$carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
+					$start='%'.mysql_real_escape_string(trim($_POST['start'])).'%';
+					$end='%'.mysql_real_escape_string(trim($_POST['end'])).'%';
+					$duration=mysql_real_escape_string(trim($_POST['duration']));
+					$date=mysql_real_escape_string(trim($_POST['date']));
+					$carid=mysql_real_escape_string(trim($_POST['carid']));
+					$numpass=0;
+					$recur=mysql_real_escape_string(trim($_POST['recur']));
+					$addressS = '%'.mysql_real_escape_string(trim($_POST['addressS'])).'%';
+					$addressE = '%'.mysql_real_escape_string(trim($_POST['addressE'])).'%';
+					$cityS = mysql_real_escape_string(trim($_POST['cityS']));
+					$cityE = mysql_real_escape_string(trim($_POST['cityE']));
+					$stateS = mysql_real_escape_string(trim($_POST['stateS']));
+					$stateE = mysql_real_escape_string(trim($_POST['stateE']));
+					$datetime=date("d/m/y h:i");
+					$author=$_SESSION['username'];
+					
+					$andc = 0;
+					
+					$sql = 'SELECT DISTINCT * FROM carpool C JOIN startinglocation S JOIN endinglocation E WHERE ';
+					
+					if($carpoolid != '')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' C.carpool_id = '. $carpoolid;
+						$andc++;
+					}
+					if($start != '%%')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' C.startingtime LIKE "'. $start.'"';
+						
+						$andc++;
+					}
+					if($end != '%%')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' C.endingtime LIKE "'. $end.'"';
+						
+						$andc++;
+					}
+					if($date != '')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' C.datetime LIKE "'. $date . '"';
+						 
+						$andc++;
+					}
+					if($recur != '')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' C.recurrencelevel = '. $recur;
+						 
+						$andc++;
+					}
+					if($addressS != '%%')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' S.address LIKE  "'. $addressS . '"';
+						 
+						$andc++;
+					}
+					if($addressE != '%%')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' E.address LIKE  "'. $addressE . '"';
+						 
+						$andc++;
+					}
+					if($cityS != '')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' S.city LIKE "'. $cityS . '"';
+						 
+						$andc++;
+					}
+					if($cityE != '')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' E.city LIKE "'. $cityE . '"';
+						 
+						$andc++;
+					}
+					if($stateS != '')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' S.state LIKE "'. $stateS . '"';
+						 
+						$andc++;
+					}
+					if($stateE != '')
+					{
+						if($andc != 0)
+							$sql .= ' AND ';
+						$sql .=' E.state LIKE "'. $stateE . '"';
+						 
+						$andc++;
+					}
+							
+					$sql = 'select * from carpool';
+					$result = mysql_query($sql) or die(mysql_error());
+
+					printCarpools($result);
+
+					mysql_close();
+					//header('Location: search.php');
+				}
+			?>
 			</div>
 			
 			</div>
@@ -147,135 +260,3 @@ if (!isset($_POST['submitpost'])):
 </body>
 
 </html>
-
-<?php
-else:
-	// Process post submission
-	dbConnect('nejadb-db');
-
-
-	
-	
-	if(isset($_GET['submitsearch']))
-	{	
-		$carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
-		$start='%'.mysql_real_escape_string(trim($_POST['start'])).'%';
-		$end='%'.mysql_real_escape_string(trim($_POST['end'])).'%';
-		$duration=mysql_real_escape_string(trim($_POST['duration']));
-		$date=mysql_real_escape_string(trim($_POST['date']));
-		$carid=mysql_real_escape_string(trim($_POST['carid']));
-		$numpass=0;
-		$recur=mysql_real_escape_string(trim($_POST['recur']));
-		$addressS = '%'.mysql_real_escape_string(trim($_POST['addressS'])).'%';
-		$addressE = mysql_real_escape_string(trim($_POST['addressE']));
-		$cityS = mysql_real_escape_string(trim($_POST['cityS']));
-		$cityE = mysql_real_escape_string(trim($_POST['cityE']));
-		$stateS = mysql_real_escape_string(trim($_POST['stateS']));
-		$stateE = mysql_real_escape_string(trim($_POST['stateE']));
-		$datetime=date("d/m/y h:i");
-		$author=$_SESSION['username'];
-		
-		$andc = 0;
-		
-		$sql = 'SELECT * FROM carpool C JOIN startinglocation S JOIN endinglocation E WHERE ';
-		
-		if($carpoolid != '')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' C.carpool_id = '. $carpoolid;
-			$andc++;
-		}
-		if($start != '%%')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' C.startingtime LIKE "'. $start.'"';
-			
-			$andc++;
-		}
-		if($end != '%%')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' C.endingtime LIKE "'. $end.'"';
-			
-			$andc++;
-		}
-		if($date != '')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' C.datetime LIKE "'. $date . '"';
-			 
-			$andc++;
-		}
-		if($recur != '')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' C.recurrencelevel = '. $recur;
-			 
-			$andc++;
-		}
-		if($addressS != '%%')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' S.address LIKE  "'. $addressS . '"';
-			 
-			$andc++;
-		}
-		if($addressE != '%%')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' E.address LIKE  "'. $addressE . '"';
-			 
-			$andc++;
-		}
-		if($cityS != '')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' S.city LIKE "'. $cityS . '"';
-			 
-			$andc++;
-		}
-		if($cityE != '')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' E.city LIKE "'. $cityE . '"';
-			 
-			$andc++;
-		}
-		if($stateS != '')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' S.state LIKE "'. $stateS . '"';
-			 
-			$andc++;
-		}
-		if($stateE != '')
-		{
-			if($andc != 0)
-				$sql .= ' AND ';
-			$sql .=' E.state LIKE "'. $stateE . '"';
-			 
-			$andc++;
-		}
-		
-				
-		$result = mysql_query($sql) or die(mysql_error());
-	
-		printCarpools($result);
-	}
-	
-	mysql_close();
-	header('Location: success.php');
-?>
-<?php
-endif;
-?>
