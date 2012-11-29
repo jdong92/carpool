@@ -159,8 +159,8 @@ else:
 	if(isset($_GET['submitsearch']))
 	{	
 		$carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
-		'%'.$start=mysql_real_escape_string(trim($_POST['start'])).'%';
-		'%'.$end=mysql_real_escape_string(trim($_POST['end'])).'%';
+		$start='%'.mysql_real_escape_string(trim($_POST['start'])).'%';
+		$end='%'.mysql_real_escape_string(trim($_POST['end'])).'%';
 		$duration=mysql_real_escape_string(trim($_POST['duration']));
 		$date=mysql_real_escape_string(trim($_POST['date']));
 		$carid=mysql_real_escape_string(trim($_POST['carid']));
@@ -181,90 +181,90 @@ else:
 		
 		if($carpoolid != '')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' C.carpool_id = '. $carpoolid;
-			andc++;
+			$andc++;
 		}
 		if($start != '%%')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' C.startingtime LIKE "'. $start.'"';
 			
-			andc++;
+			$andc++;
 		}
 		if($end != '%%')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' C.endingtime LIKE "'. $end.'"';
 			
-			andc++;
+			$andc++;
 		}
 		if($date != '')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' C.datetime LIKE "'. $date . '"';
 			 
-			andc++;
+			$andc++;
 		}
 		if($recur != '')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' C.recurrencelevel = '. $recur;
 			 
-			andc++;
+			$andc++;
 		}
 		if($addressS != '%%')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' S.address LIKE  "'. $addressS . '"';
 			 
-			andc++;
+			$andc++;
 		}
 		if($addressE != '%%')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' E.address LIKE  "'. $addressE . '"';
 			 
-			andc++;
+			$andc++;
 		}
 		if($cityS != '')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' S.city LIKE "'. $cityS . '"';
 			 
-			andc++;
+			$andc++;
 		}
 		if($cityE != '')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' E.city LIKE "'. $cityE . '"';
 			 
-			andc++;
+			$andc++;
 		}
 		if($stateS != '')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' S.state LIKE "'. $stateS . '"';
 			 
-			andc++;
+			$andc++;
 		}
 		if($stateE != '')
 		{
-			if(andc != 0)
+			if($andc != 0)
 				$sql .= ' AND ';
 			$sql .=' E.state LIKE "'. $stateE . '"';
 			 
-			andc++;
+			$andc++;
 		}
 		
 				
