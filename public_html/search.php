@@ -118,7 +118,7 @@ include("navbar.php");
 			<input type ="submit" value = "Cancel" />
 			
 			</form>
-
+			<br><br><br>
 			<?php
 				if (isset($_POST['submitsearch']))
 				{
