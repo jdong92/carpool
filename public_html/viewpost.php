@@ -63,7 +63,7 @@ include("navbar.php");
 				$driver = mysql_fetch_array($dresult); #only one row
 				$driver = $driver['username'];
 
-				echo "<strong> Car Information </strong>";
+				echo "<strong> Car Information: </strong>";
 				echo "<br> Driver: $driver";
 				$cpid = $cp_row['carpool_id'];
 				echo "<br>Carpool ID: $cpid";
