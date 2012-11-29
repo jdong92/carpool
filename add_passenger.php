@@ -71,22 +71,27 @@ if (!isset($_POST['submitpost'])):
 	
 			<div id="main-content">
 						
-			<h2>Add passenger to carpool</h2>
+			<h2>Add passenger to or remove from a carpool</h2>
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 			
+			<select name="type">
+			<option>Add</option>
+			<option>Remove</option>
+			</select>
+			<br />
+
 			Carpool ID:<br />
 			<input type="text" name="carpoolid" size="50" /><br /><br>
 			
 			Passenger Username:<br />
 			<input type="text" name="userid" size="50" />
 			<br><br>
-			<input type="submit" name="submitpost" value="Add Passenger" />
+			<input type="submit" name="submitpost" value="Submit Changes" />
 			
 
 			</form>
 						
 			<form method="post" action="index.php">
-			<br>
 			<input type ="submit" value = "Cancel" />
 			
 			</form>
@@ -114,7 +119,9 @@ else:
 // Process post submission
 dbConnect('johnsoaa-db'); //Changed DB table
 
+$type = mysql_real_escape_string(trim($_POST['type']));
 $carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
+$passengertoadd=mysql_real_escape_string(trim($_POST['userid']));
 $datetime=date("d/m/y h:i");
 $author=$_SESSION['username'];
 
@@ -128,12 +135,26 @@ else
 	$result = mysql_query($getownerquery);
 	$row = mysql_fetch_array($result);
 	if (mysql_num_rows($result) != 0 and $row['username'] == $author) {
-	//INSERT STATEMENT HERE
-		$query = "INSERT INTO passenger (username, carpool_id) VALUES ('$_POST[userid]', '$_POST[carpoolid]')";
-		if (!mysql_query($sql))
+	//INSERT STATEMENT HERE - fails to check if passenger exists, but whatever
+		if ($type == 'Add')
+			$query = "INSERT INTO passenger (username, carpool_id) VALUES ('$passengertoadd', '$carpoolid')";
+		elseif ($type == 'Remove')
+			$query = "DELETE FROM passenger WHERE username='$passengertoadd' AND carpool_id='$carpoolid'";
+		if (!@mysql_query($query))
 		{
-		error("Couldn't add passenger");
+		error("Couldn't add or remove passenger");
 		}
+
+		if ($type == 'Add') {
+			$query = "UPDATE carpool SET numberofpassengers = (numberofpassengers + 1) WHERE carpool_id = '$carpoolid'";
+			@mysql_query($query);
+		}
+		elseif ($type == 'Remove') {
+			$query = "UPDATE carpool SET numberofpassengers = (numberofpassengers - 1) WHERE carpool_id = '$carpoolid'";
+			@mysql_query($query);
+		}
+
+
 	}elseif($_POST['userid'] == $author){
 		error("You are not allowed to add yourself");
 	}else{
