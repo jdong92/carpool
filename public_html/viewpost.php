@@ -77,7 +77,7 @@ include("navbar.php");
 				$rec = $cp_row['recurrencelevel'];
 				echo "<br>Recurrence: $rec";
 
-				echo "<strong> Passengers: </strong>";
+				echo "<br><br><strong> Passengers: </strong>";
 				while ($passrow = mysql_fetch_array($presult)) { #many rows
 					$name = $passrow['username'];
 					echo "$name";
@@ -90,7 +90,7 @@ include("navbar.php");
 				$endlocr = mysql_query($query);
 				$endloc = mysql_fetch_array($endlocr); #only one row
 
-				echo "<br> <strong> Starting Location: </strong>  ";
+				echo "<br><br> <strong> Starting Location: </strong>  ";
 				$address = $startloc['address'];
 				echo "<br> Address: $address  ";
 				$zipcode = $startloc['zipcode'];
@@ -104,7 +104,7 @@ include("navbar.php");
 				$lat = $startloc['latitude'];
 				echo "<br> Latitude: $lat  ";
 
-				echo "<br> <strong> Ending Location: </strong>  ";
+				echo "<br><br> <strong> Ending Location: </strong>  ";
 				$address = $endloc['address'];
 				echo "<br> Address: $address  ";
 				$zipcode = $endloc['zipcode'];
