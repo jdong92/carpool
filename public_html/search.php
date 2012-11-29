@@ -34,7 +34,7 @@ if (!isset($_POST['submitpost'])):
       type="image/png" 
       href="favicon.png">
 	
-	<title>Create a carpool</title>
+	<title>Search for a Carpool</title>
 	
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<!--[if lt IE 7]>
@@ -66,7 +66,7 @@ if (!isset($_POST['submitpost'])):
 	
 			<div id="main-content">
 						
-			<h2>Create a carpool</h2>
+			<h2>Search for a Carpool</h2>
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 			<select name="type">
 			<option>Add</option>
@@ -124,7 +124,7 @@ if (!isset($_POST['submitpost'])):
 			<br /><br />
 			<div style="clear: both;"></div>
 			
-			<input type="submit" name="submitpost" value="Submit Changes" />
+			<input type="submit" name="submitpost" value="Search Carpools" />
 
 			</form>
 						
@@ -190,84 +190,84 @@ else:
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($start != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($end != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($duration != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($date != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($carid != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($recur != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($addressS != '%%')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($addressE != '%%')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($cityS != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($cityE != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($stateS != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
 			$sql .=' AND title LIKE "'. $searchterm2 . '"';
 			$firstpart .= ' AND '.mysql_real_escape_string(trim($_GET['searchterm2']));
 		}
-		if($carpoolid != '%%')
+		if($stateE != '')
 		{
 			if(andc != 0)
 				$sql .= ' AND ';
