@@ -63,24 +63,24 @@ include("navbar.php");
 				$driver = mysql_fetch_array($dresult); #only one row
 				$driver = $driver['username'];
 
-				echo "<p> <strong> Driver: $driver </strong> </p>";
+				echo "<strong> Driver: $driver </strong>";
 				$cpid = $cp_row['carpool_id'];
-				echo "<p> Carpool ID: $cpid </p>";
+				echo "<br>Carpool ID: $cpid";
 				$pass = $cp_row['numberofpassengers'];
-				echo "<p> Passenger Number: $pass </p>";
+				echo "<br>Passenger Number: $pass";
 				$startt = $cp_row['startingtime'];
-				echo "<p> Starting Time: $startt </p>";
+				echo "<br>Starting Time: $startt";
 				$endt = $cp_row['endingtime'];
-				echo "<p> Ending Time: $endt </p>";
+				echo "<br>Ending Time: $endt";
 				$dur = $cp_row['duration'];
-				echo "<p> Duration: $dur </p>";
+				echo "<br>Duration: $dur";
 				$rec = $cp_row['recurrencelevel'];
-				echo "<p> Recurrence: $rec </p>";
+				echo "<br>Recurrence: $rec";
 
-				echo "<p> <strong> Passengers: </strong> </p>";
+				echo "<strong> Passengers: </strong>";
 				while ($passrow = mysql_fetch_array($presult)) { #many rows
 					$name = $passrow['username'];
-					echo "<p> &nbsp $name </p>";
+					echo "$name";
 				}
 
 				$query = "select * from startinglocation where startinglocation_id=$startid";
@@ -90,33 +90,33 @@ include("navbar.php");
 				$endlocr = mysql_query($query);
 				$endloc = mysql_fetch_array($endlocr); #only one row
 
-				echo "<p> <strong> Starting Location: </strong> </p>";
+				echo "<br> <strong> Starting Location: </strong>  ";
 				$address = $startloc['address'];
-				echo "<p> Address: $address </p>";
+				echo "<br> Address: $address  ";
 				$zipcode = $startloc['zipcode'];
-				echo "<p> Zipcode: $zipcode </p>";
+				echo "<br> Zipcode: $zipcode  ";
 				$city = $startloc['city'];
-				echo "<p> City: $city </p>";
+				echo "<br> City: $city  ";
 				$state = $startloc['state'];
-				echo "<p> State: $state </p>";
+				echo "<br> State: $state  ";
 				$long = $startloc['longitude'];
-				echo "<p> Longitude: $long </p>";
+				echo "<br> Longitude: $long  ";
 				$lat = $startloc['latitude'];
-				echo "<p> Latitude: $lat </p>";
+				echo "<br> Latitude: $lat  ";
 
-				echo "<p> <strong> Ending Location: </strong> </p>";
+				echo "<br> <strong> Ending Location: </strong>  ";
 				$address = $endloc['address'];
-				echo "<p> Address: $address </p>";
+				echo "<br> Address: $address  ";
 				$zipcode = $endloc['zipcode'];
-				echo "<p> Zipcode: $zipcode </p>";
+				echo "<br> Zipcode: $zipcode  ";
 				$city = $endloc['city'];
-				echo "<p> City: $city </p>";
+				echo "<br> City: $city  ";
 				$state = $endloc['state'];
-				echo "<p> State: $state </p>";
+				echo "<br> State: $state  ";
 				$long = $endloc['longitude'];
-				echo "<p> Longitude: $long </p>";
+				echo "<br> Longitude: $long  ";
 				$lat = $endloc['latitude'];
-				echo "<p> Latitude: $lat </p>";
+				echo "<br> Latitude: $lat  ";
 
 
 
@@ -143,12 +143,12 @@ include("navbar.php");
 				// 		echo htmlspecialchars($row['price']) . '</b><br>';
 				// 		echo '<br>'.htmlspecialchars($row['text']);
 				// 		echo '<br><br>';
-				// 		echo '<p style="font-size:14px"><b>Contact Info:</b></p>';
+				// 		echo '<p style="font-size:14px"><b>Contact Info:</b> ';
 				// 		echo $row['contact'];
 				// 		echo '<br><br><a href="composemail.php?recip=' .htmlspecialchars($row['author']). '">Send Poster a Message</a>';
 				// 	}
 				// else:
-				// 	echo '<p>Invalid post id.</p>';
+				// 	echo '<br>Invalid post id. ';
 				// endif;      
 
 				mysql_close();	
