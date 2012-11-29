@@ -141,9 +141,9 @@ include("navbar.php");
 					$datetime=date("d/m/y h:i");
 					$author=$_SESSION['username'];
 					
-					$andc = 0;
+					$andc = 1;
 					
-					$sql = 'SELECT DISTINCT * FROM carpool C JOIN startinglocation S JOIN endinglocation E WHERE ';
+					$sql = 'SELECT DISTINCT * FROM carpool C JOIN startinglocation S JOIN endinglocation E WHERE C.startinglocation_id = S.startinglocation_id AND C.endinglocation_id = E.endinglocation_id ';
 					
 					if($carpoolid != '')
 					{
@@ -233,7 +233,8 @@ include("navbar.php");
 						$andc++;
 					}
 							
-					$sql = 'select * from carpool';
+					//$sql = 'select * from carpool';
+					//echo($sql);
 					$result = mysql_query($sql) or die(mysql_error());
 
 					printCarpools($result);
