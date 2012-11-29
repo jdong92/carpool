@@ -63,7 +63,8 @@ include("navbar.php");
 				$driver = mysql_fetch_array($dresult); #only one row
 				$driver = $driver['username'];
 
-				echo "<strong> Driver: $driver </strong>";
+				echo "<strong> Car Information </strong>";
+				echo "<br> Driver: $driver";
 				$cpid = $cp_row['carpool_id'];
 				echo "<br>Carpool ID: $cpid";
 				$pass = $cp_row['numberofpassengers'];
@@ -80,7 +81,7 @@ include("navbar.php");
 				echo "<br><br><strong> Passengers: </strong>";
 				while ($passrow = mysql_fetch_array($presult)) { #many rows
 					$name = $passrow['username'];
-					echo "$name";
+					echo "<br>$name";
 				}
 
 				$query = "select * from startinglocation where startinglocation_id=$startid";
