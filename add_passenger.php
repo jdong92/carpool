@@ -29,7 +29,7 @@ if (!isset($_POST['submitpost'])):
 ?>
 
 <?php 
-dbConnect('dongj-db'); //Changed DB table
+//dbConnect('dongj-db'); //Changed DB table
 
 ?>
 <html>
@@ -74,8 +74,6 @@ dbConnect('dongj-db'); //Changed DB table
 			<h2>Add passenger to carpool</h2>
 			<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 			
-			
-			
 			Carpool ID:<br />
 			<input type="text" name="carpoolid" size="50" /><br /><br>
 			
@@ -114,23 +112,31 @@ dbConnect('dongj-db'); //Changed DB table
 <?php
 else:
 // Process post submission
-//dbConnect('dongj-db'); //Changed DB table
+dbConnect('dongj-db'); //Changed DB table
 
 $carpoolid=mysql_real_escape_string(trim($_POST['carpoolid']));
 $datetime=date("d/m/y h:i");
 $author=$_SESSION['username'];
 
-if ($_POST['carpoolid']== '' and $type != "Add") 
+if ($_POST['carpoolid'] == '' or $_POST['userid'] == '') 
 {
-    error('The carpool ID field was left blank.\\n'.'Please fill it in and try again.');
+    error('One of the field was left blank.\\n'.'Please fill it in and try again.');
 }
-elseif ($type != "Add") {
+else
+{
 	$getownerquery = "SELECT username FROM driver WHERE carpool_id='$carpoolid'";
 	$result = mysql_query($getownerquery);
 	$row = mysql_fetch_array($result);
 	if (mysql_num_rows($result) != 0 and $row['username'] == $author) {
-	}
-	else {
+	//INSERT STATEMENT HERE
+		$query = "INSERT INTO passenger (username, carpool_id) VALUES ('$_POST[userid]', '$_POST[carpoolid]')";
+		if (!mysql_query($sql))
+		{
+		error("Couldn't add passenger");
+		}
+	}elseif($_POST['userid'] == $author){
+		error("You are not allowed to add yourself");
+	}else{
 		error("You don't own that carpool");
 	}
 }
